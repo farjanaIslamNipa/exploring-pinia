@@ -1,7 +1,7 @@
 <template>
     <h2 class="text-center text-xl mt-14 mb-4">Create new task</h2>
     <div class="max-w-[700px] mr-auto border rounded-2xl shadow-lg p-10">
-        <!-- <TitleAndDate /> -->
+        <TitleAndDate />
         <!-- <Location /> -->
         <!-- <Details /> -->
         <!-- <Budget /> -->
