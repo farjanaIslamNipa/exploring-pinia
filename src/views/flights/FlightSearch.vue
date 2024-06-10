@@ -137,12 +137,12 @@
        this.loading = true; 
        try {
          const departureDate = this.formatDate(this.dateInput);
-         const searchInput = ${this.originInput}-${this.destinationInput}-${departureDate}-DPM0-DT00:00:00;
-         const url = http://dev.populartravels.it:8752/api/v1/b/flight/search?ST=1&IT=${searchInput}&PX=ADT-1&FT=ALL&EN=pdt&CL=Y&FLX=0;
+         const searchInput = `${this.originInput}-${this.destinationInput}-${departureDate}-DPM0-DT00:00:00`;
+         const url = `http://dev.populartravels.it:8752/api/v1/b/flight/search?ST=1&IT=${searchInput}&PX=ADT-1&FT=ALL&EN=pdt&CL=Y&FLX=0;`
          const response = await fetch(url, {
            method: "GET",
            headers: {
-             Authorization: Bearer ${this.bearerToken},
+             Authorization: `Bearer ${this.bearerToken}`,
            },
          });
          const responseData = await response.json();
@@ -159,7 +159,7 @@
      },
      formatDate(date) {
        const Dateparts = date.split("-");
-       return ${Dateparts[0]}-${Dateparts[1]}-${Dateparts[2]};
+       return `${Dateparts[0]}-${Dateparts[1]}-${Dateparts[2]}`;
      },
    },
  }

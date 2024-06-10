@@ -1,48 +1,24 @@
 <template>
     <h2 class="text-center text-xl mt-14 mb-4">Create new task</h2>
-    <div class="max-w-[700px] mx-auto border rounded-2xl shadow-lg p-10">
-        <h3 class="text-lg">Let's start with the basics</h3>
-        <form class="mt-6 space-y-4">
-            <div>
-                <label for="" class="block text-sm font-light text-gray-500 mb-1">In a few words, what do you need done?</label>
-                <input type="text" class="border py-2 px-3 rounded-lg w-full placeholder:text-xs" placeholder="e.g Help washing my car">
-            </div>
-            <div>
-                <label for="" class="block text-sm font-light text-gray-500 mb-1">When do you need this done?</label>
-                
-            </div>
-        </form>
+    <div class="max-w-[700px] mr-auto border rounded-2xl shadow-lg p-10">
+        <!-- <TitleAndDate /> -->
+        <!-- <Location /> -->
+        <!-- <Details /> -->
+        <!-- <Budget /> -->
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
+import TitleAndDate from '@/components/tasks/TitleAndDate.vue'
+import Location from '@/components/tasks/Location.vue'
+import Details from '@/components/tasks/Details.vue'
+import Budget from '@/components/tasks/Budget.vue'
 
-const originalInput = ref('')
-const destinationInput = ref('')
-const dateInput = ref('')
-const flights = ref([])
-const bearerToken = ref('166|9SjXxIPbGXlSSDZ5DtZqSt9jL8hqTGUhLQDUULqw')
-const loading = ref(false)
-
-const getFlightData = async()=>{
-    loading.value = true;
-    try {
-        const departureDate = 
-    } catch (error) {
-        console.log(error);
-    }
-}
-const formatDate = (date) => {
-    const dateParts = date.split("-");
-    return ${Dateparts[0]}-${Dateparts[1]}
-}
-onMounted(async() => {
-    await getFlightData()
-})
+const completionDate = ref(null)
 
 </script>
 
-<style scoped>
+<style>
 
 </style>
