@@ -4,15 +4,17 @@
         
         <form class="mt-6 space-y-4">
             <div>
-                <label for="" class="input-label">In a few words, what do you need done?</label>
-                <input type="text" class="app-input" placeholder="e.g Help washing my car">
+                <label for="" class="input-label first-letter:capitalize">In a few words, what do you need done?</label>
+                <input v-model="taskTitle" type="text" class="app-input" placeholder="e.g Help washing my car">
             </div>
             <div>
                 <label for="" class="input-label">When do you need this done?</label>
                 <div class="flex gap-4">
-                    <VueDatePicker v-model="completionDate" auto-apply partial-flow :flow="['calendar']" hide-input-icon  placeholder="Select Date" input-class-name="date-picker-style" />
-                    <div class="flex w-full items-center justify-center text-center">
-                        <input type="checkbox" id="flexible" class="peer hidden" />
+                    <div class="w-full" :class="flexible === true ? 'opacity-35' : 'opacity-100'">
+                        <VueDatePicker v-model="completionDate" auto-apply partial-flow :flow="['calendar']" hide-input-icon  placeholder="Select Date" input-class-name="date-picker-style" :disabled="flexible === true"  />
+                    </div>
+                    <div class="flex w-full items-center justify-center text-center" :class="completionDate ? 'opacity-35' : 'opacity-100'">
+                        <input v-model="flexible" type="checkbox" id="flexible" class="peer hidden" name="flexibleCheckbox" value="I am flexible" unchecked-value="" :disabled="completionDate" />
                         <label for="flexible" class="checkbox-label">I am flexible</label>
                     </div>
                 </div>
@@ -26,6 +28,8 @@
                         data-ripple-dark="true"
                         >
                         <input
+                            v-model="needCertainTime"
+                            value="certain time"
                             type="checkbox"
                             class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-[#0f2d59e7] checked:bg-[#0f2d59e7] checked:before:bg-[#0f2d59e7] hover:before:opacity-10"
                             id="checkbox-5"
@@ -50,33 +54,45 @@
                     </div>
                     <p class="input-label">I need a certain time of day</p>
                 </div>
-                <div class="flex gap-3">
-                <div class="flex w-full items-center justify-center text-center">
-                    <input type="radio" id="morning" class="peer hidden" name="certainTime" />
-                    <label for="morning" class="checkbox-label">Morning</label>
-                </div>
-                <div class="flex w-full items-center justify-center text-center">
-                    <input type="radio" id="midday" class="peer hidden" name="certainTime"  />
-                    <label for="midday" class="checkbox-label">Midday</label>
-                </div>
-                <div class="flex w-full items-center justify-center text-center">
-                    <input type="radio" id="afternoon" class="peer hidden" name="certainTime"  />
-                    <label for="afternoon" class="checkbox-label">Afternoon</label>
-                </div>
-                <div class="flex w-full items-center justify-center text-center">
-                    <input type="radio" id="evening" class="peer hidden" name="certainTime"  />
-                    <label for="evening" class="checkbox-label">Evening</label>
+                <div class="flex gap-3" :class="!needCertainTime ? 'pointer-events-none opacity-35' : 'pointer-events-auto opacity-100'">
+                    <div class="flex w-full items-center justify-center text-center">
+                        <input v-model="certainTime" type="radio" id="morning" class="peer hidden" name="certainTime" value="morning" />
+                        <label for="morning" class="checkbox-label">Morning</label>
+                    </div>
+                    <div class="flex w-full items-center justify-center text-center">
+                        <input v-model="certainTime" type="radio" id="midday" class="peer hidden" name="certainTime" value="midday" />
+                        <label for="midday" class="checkbox-label">Midday</label>
+                    </div>
+                    <div class="flex w-full items-center justify-center text-center">
+                        <input v-model="certainTime" type="radio" id="afternoon" class="peer hidden" name="certainTime" value="afternoon" />
+                        <label for="afternoon" class="checkbox-label">Afternoon</label>
+                    </div>
+                    <div class="flex w-full items-center justify-center text-center">
+                        <input v-model="certainTime" type="radio" id="evening" class="peer hidden" name="certainTime" value="evening" />
+                        <label for="evening" class="checkbox-label">Evening</label>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div class="pt-5">
-                <button class="border border-[#c4d6f2e7] py-[9px] text-sm px-3 w-full rounded-md focus:outline-none bg-[#cedcf4e7] text-[#0f2d59e7] font-medium">Next</button>
-            </div>
+            <!-- <div class="pt-5">
+                <button @click="goNext" class="border border-[#c4d6f2e7] py-[9px] text-sm px-3 w-full rounded-md focus:outline-none bg-[#cedcf4e7] text-[#0f2d59e7] font-medium">Next</button>
+            </div> -->
         </form>
     </div>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue';
+    const taskTitle = ref('')
+    const completionDate = ref(null)
+    const flexible = ref('')
+    const needCertainTime = ref(false)
+    const certainTime = ref('')
+
+    watch(needCertainTime, newVal => {
+        if(newVal === false){
+
+        }
+    })
 
 </script>
 

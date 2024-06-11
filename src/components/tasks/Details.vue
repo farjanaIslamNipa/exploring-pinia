@@ -47,10 +47,10 @@
           <textarea rows="4" type="text" class="app-input" placeholder="Enter as much details as possible"></textarea>
       </div>
     
-      <div class="flex items-center justify-between pt-5">
+      <!-- <div class="flex items-center justify-between pt-5">
         <button class="border border-[#c4d6f2e7] py-[9px] text-sm px-3 min-w-[120px] rounded-md focus:outline-none bg-white text-[#0f2d59e7] font-medium">Prev</button>
         <button class="border border-[#c4d6f2e7] py-[9px] text-sm px-3 min-w-[120px] rounded-md focus:outline-none bg-[#cedcf4e7] text-[#0f2d59e7] font-medium">Next</button>
-      </div>
+      </div> -->
     </form>
   </div>
 </template>
