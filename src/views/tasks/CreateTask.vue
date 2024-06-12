@@ -28,14 +28,16 @@ const loading = ref(false)
 const getFlightData = async()=>{
     loading.value = true;
     try {
-        const departureDate = 
+        const departureDate = formatDate(dateInput.value);
+        const searchInput = `${this.originInput}-${this.destinationInput}-${departureDate}-DPM0-DT00:00:00`
     } catch (error) {
         console.log(error);
     }
 }
 const formatDate = (date) => {
-    const dateParts = date.split("-");
-    return ${Dateparts[0]}-${Dateparts[1]}
+    console.log(date)
+    // const dateParts = date.split("-");
+    // return ${Dateparts[0]}-${Dateparts[1]}
 }
 onMounted(async() => {
     await getFlightData()
