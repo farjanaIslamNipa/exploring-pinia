@@ -133,8 +133,8 @@
        this.loading = true; 
        try {
          const departureDate = this.formatDate(this.dateInput);
-         const searchInput =`${this.originInput}-${this.destinationInput}-${departureDate}-DPM0-DT00:00:00`;
-         const url = `http://dev.populartravels.it:8752/api/v1/b/flight/search?ST=1&IT=${searchInput}&PX=ADT-1&FT=ALL&EN=pdt&CL=Y&FLX=0`;
+         const searchInput = `${this.originInput}-${this.destinationInput}-${departureDate}-DPM0-DT00:00:00`;
+         const url = `http://dev.populartravels.it:8752/api/v1/b/flight/search?ST=1&IT=${searchInput}&PX=ADT-1&FT=ALL&EN=pdt&CL=Y&FLX=0;`
          const response = await fetch(url, {
            method: "GET",
            headers: {

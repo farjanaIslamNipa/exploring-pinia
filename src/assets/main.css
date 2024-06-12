@@ -11,3 +11,26 @@
 body{
   font-weight: 300;
 }
+
+
+
+.checkbox-label {
+  @apply w-full select-none cursor-pointer border rounded-lg 
+  py-[10px] px-3 transition-colors duration-200 ease-in-out peer-checked:bg-[#0f2d59e7] peer-checked:text-[#e3c29d] peer-checked:border-[#0f2d59e7] text-[#0f2d59e7] text-sm peer-checked:font-medium
+}
+
+.app-input{
+  @apply border py-2 px-3 rounded-lg w-full placeholder:text-xs focus:right-0 focus:outline-none text-sm text-gray-800
+}
+
+.input-label{
+  @apply block text-sm font-light text-[#0f2d59e7] mb-1
+}
+
+.prev-btn{
+  @apply border border-[#c4d6f2e7] py-[9px] text-sm px-3 min-w-[120px] rounded-md focus:outline-none bg-white text-[#0f2d59e7] font-medium
+}
+
+.next-btn{
+  @apply border border-[#c4d6f2e7] py-[9px] text-sm px-3 min-w-[120px] rounded-md focus:outline-none bg-[#cedcf4e7] text-[#0f2d59e7] font-medium
+}
