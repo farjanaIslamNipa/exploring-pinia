@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^8.8.0",
+    "algoliasearch": "^4.23.3",
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
+    "places.js": "^1.19.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
