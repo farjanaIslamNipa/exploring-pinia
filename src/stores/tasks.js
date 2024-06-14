@@ -1,36 +1,55 @@
+import axios from "axios";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export const useTaskStore = defineStore('tasks', () => {
   const step = ref(1)
   const tasks = ref({
     title: '',
-    date: '',
     completionDate: null,
     flexible: '',
     needCertainTime: false,
-    certainTime: '',
+    specificTime: '',
     isRemoval: '',
-    removalType: '',
-    pickupAddress: '',
-    dropOffAddress: '',
+    taskType: '',
+    pickupPoint: '',
+    dropOffPoint: '',
     address: '',
     movingItem: '',
     isStairs: '',
     taskDetails: '',
-    suggestedBudget: null
+    suggestedBudget: null,
+    recaptchaToken: ''
   })
 
-  const createTask = async() => {
+  const createTask = async () => {
+    let deadline = ''
+    if(tasks.value.completionDate !== null){
+      deadline = tasks.value.completionDate
+    }
+    if(tasks.value.flexible !== ''){
+      deadline = tasks.value.flexible
+    }
+    const taskData = {deadline, ...tasks.value}
+
     try {
-      const taskData = await fetch('http://localhost:8000/api/v1/tasks/create-task', tasks.value)
+      const res = await axios.post('http://localhost:8000/api/v1/tasks/create-task', taskData)
+      if (!res.ok) {
+        throw new Error('Network response was not ok')
+      }
+  
+      const data = await res.json()
+      // response.value = `Success: ${JSON.stringify(data)}`
     } catch (error) {
-      console.log(error);
+      // response.value = `Error: ${error.message}`
+      console.log(error, 'error')
     }
   }
+
 
   return {
     step, 
     tasks,
+    createTask
   }
 })

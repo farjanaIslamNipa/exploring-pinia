@@ -17,11 +17,11 @@
     <div v-if="tasks.isRemoval === 'yes'" class="space-y-4">
       <div>
           <label for="" class="input-label">Pickup Address</label>
-          <input v-model="tasks.pickupAddress" type="text" class="app-input" placeholder="Enter pickup address">
+          <input v-model="tasks.pickupPoint" type="text" class="app-input" placeholder="Enter pickup address">
       </div>
       <div>
           <label for="" class="input-label">Drop-off Address<span class="text-xs">(Optional)</span></label>
-          <input v-model="tasks.dropOffAddress" type="text" class="app-input" placeholder="Enter drop-off address">
+          <input v-model="tasks.dropOffPoint" type="text" class="app-input" placeholder="Enter drop-off address">
       </div>
     </div>
 
@@ -29,7 +29,7 @@
     <div v-if="tasks.isRemoval === 'no'" >
       <div class="flex gap-3">
         <div class="flex w-full items-center justify-center text-center">
-            <input v-model="tasks.removalType" type="radio" id="in-person" class="peer hidden" name="removalType" value="In Person" />
+            <input v-model="tasks.taskType" type="radio" id="in-person" class="peer hidden" name="removalType" value="In Person" />
             <label for="in-person" class="checkbox-label font-medium">
               <div class="py-4 px-5">
                 <p>In-Person</p>
@@ -38,7 +38,7 @@
             </label>
         </div>
         <div class="flex w-full items-center justify-center text-center">
-            <input v-model="tasks.removalType" type="radio" id="online" class="peer hidden" name="removalType" value="Online"  />
+            <input v-model="tasks.taskType" type="radio" id="online" class="peer hidden" name="removalType" value="Online"  />
             <label for="online" class="checkbox-label font-medium">
               <div class="py-4 px-5">
                 <p>Online</p>
@@ -49,7 +49,7 @@
       </div>
       
       <!-- If In-person -->
-      <div v-if="tasks.removalType === 'In Person'" class="mt-4">
+      <div v-if="tasks.taskType === 'In Person'" class="mt-4">
           <label for="" class="input-label">Where do you need this done?</label>
           <input v-model="tasks.address" type="text" class="app-input" placeholder="Enter address">
       </div>
@@ -67,11 +67,11 @@ const { tasks } = storeToRefs(taskStore)
 
 watch(tasks.value, newVal => {
   if(newVal.isRemoval === 'no'){
-    newVal.pickupAddress = ''
-    newVal.dropOffAddress = ''
+    newVal.pickupPoint = ''
+    newVal.dropOffPoint = ''
   }
   if(newVal.isRemoval === 'yes'){
-    newVal.removalType = ''
+    newVal.taskType = ''
     newVal.address = ''
   }
 })

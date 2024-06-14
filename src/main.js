@@ -13,10 +13,10 @@ import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 const app = createApp(App)
 
-app.use(createPinia())
+
 app.use(router)
 
 app.component('VueDatePicker', VueDatePicker);
 app.use(VueReCaptcha, { siteKey: '6LcSTfYpAAAAAO6fjEYsVW1lb5GfvRwKATOHzfkf' });
-
+app.use(createPinia())
 app.mount('#app')

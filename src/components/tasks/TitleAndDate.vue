@@ -52,19 +52,19 @@
         </div>
         <div class="flex gap-3" :class="!tasks.needCertainTime ? 'pointer-events-none opacity-35' : 'pointer-events-auto opacity-100'">
             <div class="flex w-full items-center justify-center text-center">
-                <input v-model="tasks.certainTime" type="radio" id="morning" class="peer hidden" name="certainTime" value="morning" />
+                <input v-model="tasks.specificTime" type="radio" id="morning" class="peer hidden" name="certainTime" value="Morning" />
                 <label for="morning" class="checkbox-label">Morning</label>
             </div>
             <div class="flex w-full items-center justify-center text-center">
-                <input v-model="tasks.certainTime" type="radio" id="midday" class="peer hidden" name="certainTime" value="midday" />
+                <input v-model="tasks.specificTime" type="radio" id="midday" class="peer hidden" name="certainTime" value="Midday" />
                 <label for="midday" class="checkbox-label">Midday</label>
             </div>
             <div class="flex w-full items-center justify-center text-center">
-                <input v-model="tasks.certainTime" type="radio" id="afternoon" class="peer hidden" name="certainTime" value="afternoon" />
+                <input v-model="tasks.specificTime" type="radio" id="afternoon" class="peer hidden" name="certainTime" value="Afternoon" />
                 <label for="afternoon" class="checkbox-label">Afternoon</label>
             </div>
             <div class="flex w-full items-center justify-center text-center">
-                <input v-model="tasks.certainTime" type="radio" id="evening" class="peer hidden" name="certainTime" value="evening" />
+                <input v-model="tasks.specificTime" type="radio" id="evening" class="peer hidden" name="certainTime" value="Evening" />
                 <label for="evening" class="checkbox-label">Evening</label>
             </div>
         </div>

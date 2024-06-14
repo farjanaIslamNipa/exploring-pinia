@@ -11,14 +11,15 @@
             }}
         </h3>
 
-        <form @submit.prevent="createTask" class="mt-6 space-y-4">
+        <form @submit.prevent="addNewTask" class="mt-6 space-y-4">
             <keep-alive>
                 <component :is="currentComponent" />
             </keep-alive>
 
             <div class="flex items-center pt-2 border-t border-[#7da1d6e7]  mt-8" :class="step > 1 ? 'justify-between' : 'justify-end'">
                 <button @click="goPrev" :class="step > 1 ? 'visible' : 'hidden'" class="prev-btn">Prev</button>
-                <button @click="goNext" class="next-btn" :type="step === 4 ? 'submit' : 'button'">Next</button>
+                <button v-if="step <= 3" @click="goNext" class="next-btn" type="button">Next</button>
+                <button v-if="step === 4" class="next-btn" type="submit">Create new task</button>
                 <button @click="recaptcha">Execute recaptcha</button>
             </div>
         </form>
@@ -34,27 +35,18 @@ import { ref, shallowRef, watch } from 'vue';
 import { useTaskStore } from '@/stores/tasks';
 import { storeToRefs } from 'pinia';
 import {useReCaptcha} from 'vue-recaptcha-v3';
-
 const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
-
-const recaptcha = async () => {
-      // (optional) Wait until recaptcha has been loaded.
-      await recaptchaLoaded()
-
-      // Execute reCAPTCHA with action "login".
-      const token = await executeRecaptcha('login')
-
-      // Do stuff with the received token.
-    }
 
 const currentComponent = shallowRef(TitleAndDate)
 const taskStore = useTaskStore();
-const { step } = storeToRefs(taskStore)
+const { step, tasks } = storeToRefs(taskStore)
+const {createTask} = taskStore
 
 const goNext = () => {
     if(step.value < 4){
         step.value++
     }
+    
 }
 
 const goPrev = () => {
@@ -63,12 +55,12 @@ const goPrev = () => {
     }
 }
 
-const createTask = async() => {
-    try {
-        
-    } catch (error) {
-        console.log(error);
-    }
+
+
+const addNewTask = async() => {
+    await recaptcha()
+    createTask()
+    console.log('add task')
 }
 
 watch(step, (newVal) => {
@@ -82,6 +74,14 @@ watch(step, (newVal) => {
         currentComponent.value = Budget
     }
 })
+
+const recaptcha = async () => {
+      // (optional) Wait until recaptcha has been loaded.
+      await recaptchaLoaded()
+
+      // Execute reCAPTCHA with action "login".
+      tasks.value.recaptchaToken = await executeRecaptcha('login')
+    }
 </script>
 
 <style>
