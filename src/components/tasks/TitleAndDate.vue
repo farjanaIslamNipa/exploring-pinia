@@ -74,10 +74,14 @@
 <script setup>
 import { useTaskStore } from '@/stores/tasks';
 import { storeToRefs } from 'pinia';
+import {ref} from 'vue'
 
 
 const taskStore = useTaskStore();
 const { tasks } = storeToRefs(taskStore)
+
+const completionDate = ref('')
+const flexible = ref('')
 
 </script>
 

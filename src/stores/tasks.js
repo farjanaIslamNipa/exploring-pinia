@@ -7,7 +7,7 @@ export const useTaskStore = defineStore('tasks', () => {
   const tasks = ref({
     title: '',
     completionDate: null,
-    flexible: '',
+    flexible: false,
     needCertainTime: false,
     specificTime: '',
     isRemoval: '',
@@ -27,21 +27,18 @@ export const useTaskStore = defineStore('tasks', () => {
     if(tasks.value.completionDate !== null){
       deadline = tasks.value.completionDate
     }
-    if(tasks.value.flexible !== ''){
-      deadline = tasks.value.flexible
+    if(tasks.value.flexible === true){
+      deadline = 'I am flexible'
     }
     const taskData = {deadline, ...tasks.value}
 
     try {
       const res = await axios.post('http://localhost:8000/api/v1/tasks/create-task', taskData)
-      if (!res.ok) {
+      console.log(res, 'response')
+      if (res.status !== 200) {
         throw new Error('Network response was not ok')
       }
-  
-      const data = await res.json()
-      // response.value = `Success: ${JSON.stringify(data)}`
     } catch (error) {
-      // response.value = `Error: ${error.message}`
       console.log(error, 'error')
     }
   }
