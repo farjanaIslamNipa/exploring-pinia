@@ -5,7 +5,13 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns:
+      {
+        'table-web': '7% 12% 10% 15% 15% 7% 7% 13% 9% 5%',
+        'table-mobile': '33% 33% 34%',
+      }
+    },
   },
   plugins: [],
 }
