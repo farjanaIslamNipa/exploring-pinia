@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('../views/tasks/CreateTask.vue')
     },
     {
+      path:'/about-us',
+      name: 'createTask',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
       path: '/flight/search',
       name: 'flightSearch',
       // route level code-splitting

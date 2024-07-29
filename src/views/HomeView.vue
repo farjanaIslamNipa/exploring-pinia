@@ -1,6 +1,14 @@
 <template>
   <div class="w-full max-w-[1500px] mx-auto py-10 px-10">
     <div class="bg-red-50 rounded-lg px-4 mb-5">
+      <div>
+        <Transition name="tooltip">
+          <div v-if="show" id="show" class="">
+            Using visibility
+          </div>
+        </Transition>
+        <button @click="show = !show">toggle message</button>
+      </div>
       <div class="">
 
         <div class="flex gap-1 items-center w-full">
@@ -39,7 +47,7 @@
 
 <script setup>
 import { useSupplyStore } from "@/stores/supply";
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { storeToRefs } from 'pinia'
 
 
@@ -60,5 +68,51 @@ const handleClearFilter = () => {
 }
 
 
+const show = ref(true)
+
+const getSize = () => {
+  if(window.innerWidth < 1024){
+    show.value = false
+  }else{
+    show.value = true
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', getSize)
+  getSize()
+  console.log(show.value, 'moun')
+})
+
+// const show = () => {
+//   const section = document.getElementById('show')
+//   section.classList.toggle('show-div')
+// }
+
 
 </script>
+
+<style>
+
+.show-div{
+  display: block !important;
+}
+
+.tooltip-enter-active {
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+.tooltip-leave-active {
+  transition: transform 0.35s ease-in, opacity 0.28s ease-out;
+}
+
+.tooltip-enter-from {
+  transition: none;
+}
+
+.tooltip-enter-from,
+.tooltip-leave-to {
+  transform: translateY(-30px) scale(0.96);
+  opacity: 0;
+}
+</style>
