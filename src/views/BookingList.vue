@@ -861,7 +861,127 @@ onBeforeUnmount(() => {
 		onClickGdsChangeToggler();
 	});
 });
+
+
+
+// ================================
+const currentPage = ref(1);
+const $toast = useToast();
+
+const user = ref({});
+const searchValueTypeChangeToggler = ref(false);
+const bookingStatusChangeToggler = ref(false);
+const userTypeChangeToggler = ref(false);
+const gdsTypeChangeToggler = ref(false);
+const exception = ref('');
+const filter = reactive({
+	status: 'any',
+	field: 'pnr',
+	value: '',
+	gds: '',
+	userType: '',
+	page: 1
+});
+const form = reactive({
+	bookingList: [],
+	pagination: {},
+});
+
+const pnrStore = usePnrStore();
+const searchValue = ref("");
+const tableRow = ref(0);
+const loaderPnr = ref(false);
+const searchValueType = ref("PNR");
+const bookingStatusType = ref("Status(Any)");
+const userType = ref("Status(Any)");
+const route = useRoute();
+const param = ref(route.query.parameter);
+const loadSkeleton = ref(false)
+
+// To view all table data in mobile device
+const activeIndex = ref(null);
+const toggleDetails = (index) => {
+  if (activeIndex.value === index) {
+    activeIndex.value = null;
+  } else {
+    activeIndex.value = index;
+  }
+};
+
+const bookingService = useBooking();
+
+
+const searchPNR = () => {
+	loaderPnr.value = true;
+	tableRow.value = -1;
+	pnrStore.pnrCode = searchValue.value;
+	filter.status = bookingStatusType.value === 'Status(Any)' ? 'any' : bookingStatusType.value.toLowerCase();
+	filter.userType = userType.value === 'Type(Any)' ? 'any' : userType.value.toLowerCase();
+	filter.field = searchValueType.value.toLowerCase();
+	filter.value = encodeURIComponent(searchValue.value);
+	filter.gds = gdsAccessType.value;
+	currentPage.value = 1;
+
+	// router.replace({ query: { parameter } });
+	fetchBooking();
+};
+
+
+const fetchBooking = async () => {
+	loadSkeleton.value = true;
+	exception.value = '';
+		const parameter = "page=" + currentPage.value + "&status=" + filter.status + "&field=" + filter.field + "&value=" + filter.value + "&userType=" + filter.userType;
+    loaderPnr.value = true;
+    await bookingService.fetchBookingList(parameter);
+    const { loading, result, data, error } = bookingService;
+    loaderPnr.value = loading.value;
+		loadSkeleton.value = false;
+    if (data) {
+        form.bookingList = data.value.bookingList;
+        form.pagination = data.value.paginate;
+    }
+};
+
+function updateCurrentPageValue(currentPageValue) {
+    currentPage.value = currentPageValue;
+    fetchBooking();
+}
+
+onMounted(() => {
+	window.addEventListener("click", () => {
+		onClicksearchValueTypeChangeToggler();
+		onClickbookingStatusChangeToggler();
+		onClickGdsChangeToggler();
+		onClickUserTypeChangeToggler();
+	});
+	checkOfficeType();
+	permissionCheck();
+
+	fetchBooking()
+
+	// if (param.value) {
+	// 	fetchBooking(param.value);
+	// 	assignFilterValue(param.value);
+	// }
+	// else {
+	// 	var parameter = "page=" + currentPage.value + "&status=" + filter.status + "&field=" + filter.field + "&value=" + filter.value + "&userType=" + filter.userType;
+	// 	router.replace({ query: { parameter } });
+	// 	fetchBooking(parameter);
+	// }
+});
+onBeforeUnmount(() => {
+	window.removeEventListener("click", () => {
+		onClicksearchValueTypeChangeToggler();
+		onClickbookingStatusChangeToggler();
+		onClickGdsChangeToggler();
+	});
+});
+
+
+
+// ================================
 </script>
+
 <style>
 .truncate-text {
     width: 150px;

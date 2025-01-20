@@ -25,6 +25,21 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path:'/otp',
+      name: 'Otp',
+      component: () => import('../views/Otp.vue')
+    },
+    {
+      path:'/form',
+      name: 'Form',
+      component: () => import('../views/Form.vue')
+    },
+    {
+      path:'/pagination',
+      name: 'Pagination',
+      component: () => import('../views/Pagination.vue')
+    },
+    {
       path: '/flight/search',
       name: 'flightSearch',
       // route level code-splitting

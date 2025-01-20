@@ -46,7 +46,6 @@ const goNext = () => {
     if(step.value < 4){
         step.value++
     }
-    
 }
 
 const goPrev = () => {
@@ -54,8 +53,6 @@ const goPrev = () => {
         step.value--
     }
 }
-
-
 
 const addNewTask = async() => {
     await recaptcha()
@@ -83,7 +80,3 @@ const recaptcha = async () => {
       tasks.value.recaptchaToken = await executeRecaptcha('login')
     }
 </script>
-
-<style>
-
-</style>
