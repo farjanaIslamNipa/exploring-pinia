@@ -9,7 +9,7 @@
     <!-- pagination -->
     <div
   class="relative mx-auto mb-20 mt-10 flex w-full justify-center border-b-[1px] border-t-[1px] border-[#C8C8C8] bg-transparent">
-  <div class="flex w-full justify-center gap-x-4 py-2 text-xl text-white md:justify-between md:py-0">
+  <div class="flex w-full justify-center gap-x-4 py-2 text-xl md:justify-between md:py-0">
     <div class="flex items-center justify-start">
       <button @click="goToPreviousPage"
         class="relative flex items-center justify-start gap-x-2 bg-transparent text-xs font-medium leading-5 disabled:opacity-50"
@@ -30,7 +30,7 @@
         </button>
         <button v-else @click="onPageChange(page)"
           class="flex items-center justify-center bg-transparent px-4 pb-3 pt-4 text-xs" :class="page == pagination.currentPage
-            ? 'border-b-[3px] border-b-default-blue font-bold text-default-blue'
+            ? 'border-b-[3px] border-b-[#414141] font-bold text-default-blue'
             : 'text-gray-500'
             ">
           {{ page }}
@@ -40,8 +40,8 @@
         <div class="mx-2 hidden justify-center md:flex">/</div>
         <div class="mx-2 flex justify-center">Go to</div>
         <div class="flex justify-center">
-          <input type="text" placeholder="Page" v-model="pagination.inputPage"
-            @keyup.enter.stop="searchPage(pagination.inputPage)"
+          <input type="text" placeholder="Page" v-model="pagination.inputPageNumber"
+            @keyup.enter.stop="searchPage(pagination.inputPageNumber)"
             class="flex max-w-[100px] justify-center rounded-full border border-gray-500 bg-transparent px-2 py-1 text-center focus:outline-none" />
         </div>
         <div class="ml-2 block md:hidden">
@@ -55,7 +55,7 @@
         :class="pagination.currentPage == pagination.totalPage
           ? 'text-[#858585]'
           : 'text-[#383838]'
-          " @mouseover="pagination.nextHovering = true" @mouseleave="pagination.nextHovering = false"
+          "
         :disabled="pagination.currentPage == pagination.totalPage">
         <div class="hidden md:block">Next</div>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 rotate-180 text-dark-blue hover:text-dark-blue"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"></path></svg>
@@ -85,8 +85,8 @@ const pagination = ref({
   chunkSize: 10,
   currentPage: 1,
   totalPage: 0,
-  inputPage: null,
-  filterInputPage: null,
+  inputPageNumber: null,
+  filterinputPageNumber: null,
   prevHovering: false,
   nextHovering: false,
   prevArrowHovering: false,
@@ -106,45 +106,32 @@ watch(
   comments,
   (newVal) => {
     if (newVal) {
-      console.log(newVal, 'cd');
       commentsData.value = newVal;
-      pagination.value.chunkedComments = chunkArray(
-        commentsData.value,
-        pagination.value.chunkSize,
-      );
+      pagination.value.chunkedComments = chunkArray(commentsData.value, pagination.value.chunkSize)
       pagination.value.comments = pagination.value.chunkedComments[pagination.value.currentPage - 1]
-      console.log(pagination.value.comments, 'cc');
     }
   },
   { deep: true, immediate: true },
 );
 
 const visiblePages = computed(() => {
-  pagination.value.totalPage = pagination.value?.chunkedFlights?.length;
-  const currentPageValue = pagination.value.currentPage;
+  pagination.value.totalPage = pagination.value?.chunkedComments?.length;
   const lastPage = pagination.value?.chunkedComments?.length;
   const windowSize = 1; // Number of pages to show before and after the current page
-  const ellipsisThreshold = windowSize; // Minimum number of pages required to show ellipsis
 
-  if (lastPage <= ellipsisThreshold) {
-    return Array.from({ length: lastPage }, (_, i) => i + 1);
-  }
   const pages = [];
   // Add first page
   if (pagination.value.currentPage >= 4) pages.push(1);
   // Add pages before current page
-  for (
-    let i = Math.max(1, pagination.value.currentPage - windowSize - 1);
-    i < pagination.value.currentPage;
-    i++
-  ) {
+
+  for (let i = Math.max(1, pagination.value.currentPage - windowSize - 1); i < pagination.value.currentPage; i++) {
     pages.push(i);
   }
   // Add current page
   pages.push(pagination.value.currentPage);
   // Add pages after current page
   for (
-    let i = pagination.currentPage + 1;
+    let i = pagination.value.currentPage + 1;
     i <= Math.min(lastPage, pagination.value.currentPage + windowSize + 1);
     i++
   ) {
@@ -157,51 +144,43 @@ const visiblePages = computed(() => {
   }
 
   if (pages[pages.length - 2] < lastPage - 1) {
-    pages.splice(pages.length - 1, 0, "...");
+    pages.splice(pages.length - 1, 0, "...")
   }
   return pages;
-});
+})
+
+const updatePaginationComments = (page) => {
+  pagination.value.inputPageNumber = null
+  pagination.value.currentPage = page
+  pagination.value.comments = pagination.value.chunkedComments[page - 1];
+};
 
 const goToPreviousPage = () => {
   if (pagination.value.currentPage > 1) {
-    pagination.value.currentPage--;
-    let x = pagination.value.chunkedComments[pagination.value.currentPage - 1];
-    pagination.value.comments = x;
+    updatePaginationComments(pagination.value.currentPage - 1);
   }
+}
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
-const onPageChange = (page) => {
-  if (page === "...") return; // Ignore ellipsis click
-  pagination.value.currentPage = page;
-  let x = pagination.value.chunkedComments[pagination.value.currentPage - 1];
-
-  pagination.value.comments = x;
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
 const goToNextPage = () => {
   if (pagination.value.currentPage < pagination.value.totalPage) {
-    pagination.value.currentPage++;
-    let x = pagination.value.chunkedFlights[pagination.value.currentPage - 1];
-    pagination.value.comments = x;
+    updatePaginationComments(pagination.value.currentPage + 1);
   }
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
+}
+
+const onPageChange = (page) => {
+  if (page !== "...") {
+    updatePaginationComments(page);
+  }
+}
 
 const searchPage = (page) => {
-  if (page != null && page <= pagination.value.totalPage) onPageChange(page);
+  const pageNumber = Number(page);
+  if (pageNumber && pageNumber > 0 && pageNumber <= pagination.value.totalPage) {
+    updatePaginationComments(pageNumber);
+  } else {
+    alert(`Please enter a valid page number between 1 and ${pagination.value.totalPage}`);
+  }
 };
-
 onMounted(() => {
   fetchComments()
 })
